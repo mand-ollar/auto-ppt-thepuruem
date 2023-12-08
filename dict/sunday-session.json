@@ -1,0 +1,35 @@
+{
+
+    "date": "2023.12.10",
+
+    "sermon_title": "교회의 편에 서시는 하나님",
+
+    "sermon_bible": "시편 129:1-8",
+
+    "insermon_bible": ["시편 129:1", "시편 129:1-2", "시편 129:3", "시편 129:4", "시편 129:2", "시편 129:5-8"],
+
+    "title_kr": ["주와 다시 걸으리",
+                 "주의 노래 가득해",
+                 "주만 의지해"],
+
+    "title_en": ["Walking With God",
+                 "Full of Your Songs",
+                 "Only Trust in Jesus"],
+
+    "lyrics_list": [],
+
+    "sequence_list": ["AABCCzAABCCCCCCz",
+                      "A1A2BCzA1A2BCCCz",
+                      "A1A2BzA2BBz"],
+
+    "name": "장윤아 자매",
+
+    "preacher": "장해윤 목사님",
+
+    "version": "개역개정",
+
+    "aftersermon": "교회여 일어나라",
+
+    "offering": "나의 모습 나의 소유"
+
+}
