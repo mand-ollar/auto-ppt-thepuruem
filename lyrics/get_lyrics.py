@@ -109,7 +109,7 @@ class getLyrics:
         
         segments = text.split("\n")
         for segment in segments:
-            if len(segment) > 18:
+            if len(segment) > 20:
                 is_fit = False
                 break
         
@@ -184,7 +184,7 @@ class getLyrics:
                 print("[NO ARTIST NAME ENTERED]\n")
                 for i in range(5):
                     k = i * 3
-                    print(f"{i + 1}] {artists[k + 1].text}")
+                    print(f"{i + 1}] {artists[k].text}")
                 print()
                 artist_name = artists[3 * int(input("Choose the artist: ")) - 2].text
                 print()
@@ -229,3 +229,7 @@ class getLyrics:
         self.__save_as_txt__(song_title, lyrics)
 
 # TODO: song part separation
+
+if __name__ == "__main__":
+    getLyrics = getLyrics()
+    getLyrics.get_lyrics(song_title="당신의 날에", artist_name="WELOVE")

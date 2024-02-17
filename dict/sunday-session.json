@@ -1,34 +1,41 @@
 {
 
-    "date": "2023.12.10",
+    "date": "2024.02.04",
 
-    "sermon_title": "교회의 편에 서시는 하나님",
+    "sermon_title": "낭비되지 말아야 할 슬픔",
 
-    "sermon_bible": "시편 129:1-8",
+    "sermon_bible": "시편 126:1-6",
 
-    "insermon_bible": ["시편 129:1", "시편 129:1-2", "시편 129:3", "시편 129:4", "시편 129:2", "시편 129:5-8"],
+    "insermon_bible": ["시편 126:1-3",
+                       "시편 126:1-3",
+                       "시편 126:4",
+                       "시편 126:5-6"
+                    ],
 
-    "title_kr": ["주와 다시 걸으리",
-                 "주의 노래 가득해",
-                 "주만 의지해"],
+    "title_kr": ["사랑은 여기 있으니",
+                 "당신의 날에",
+                 "허망해 보이나"
+                ],
 
-    "title_en": ["Walking With God",
-                 "Full of Your Songs",
-                 "Only Trust in Jesus"],
+    "title_en": ["Love Is Here",
+                 "On Your Day",
+                 "Though It Seems In Vain"
+                ],
 
     "lyrics_list": [],
 
-    "sequence_list": ["AABCCzAABCCCCCCz",
-                      "A1A2BCzA1A2BCCCz",
-                      "A1A2BzA2BBz"],
+    "sequence_list": ["A1zA1BCzA2BCzD1D2CCz",
+                      "ABCzABCzBCCz",
+                      "ABzABzBBBz"
+                    ],
 
-    "name": "장윤아 자매",
+    "name": "오민석 형제",
 
     "preacher": "장해윤 목사님",
 
     "version": "개역개정",
 
-    "aftersermon": "교회여 일어나라",
+    "aftersermon": "밀알",
 
     "offering": "나의 모습 나의 소유"
 

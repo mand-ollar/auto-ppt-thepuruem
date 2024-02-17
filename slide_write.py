@@ -1,6 +1,7 @@
 from pptx import Presentation
 from get_phrases import getPhrases
 from pathlib import Path
+from lyrics import get_lyrics
 
 import json
 import re
@@ -12,14 +13,13 @@ class slideWrite:
                  variable_list: list,
                  ):
         '''
-        variable_list:
-        pdate, title, bible, insermon, title_kr, title_en, lyrics, name, preacher, adate, version
-        
         \uAC00-\uD7A30 : 가-힣
         0-9 : 0-9
         a-zA-Z : a-zA-Z
         \s : whitespace
         '''
+
+        self.get_lyrics = get_lyrics.getLyrics()
 
         self.placeholer_dict = {
             "preview": ["pdate", "title", "bible"],
@@ -316,7 +316,8 @@ class slideWrite:
             else:
                 print(f"Lyrics file for [{title}] doesn't exist...\n")
                 print("Terminating...")
-                return -1
+                self.get_lyrics.get_lyrics(title)
+                return False
             
             # sequence setting
             sequence_list = list(lyrics.keys())

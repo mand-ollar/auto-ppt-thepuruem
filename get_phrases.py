@@ -1,5 +1,6 @@
 from requests import get
 from bs4 import BeautifulSoup
+import re
 import json
 
 class getPhrases:
@@ -29,7 +30,7 @@ class getPhrases:
         url_1 = f"version={version}&"
         url_2 = f"book={book}&"
         url_3 = f"chap={chap}&"
-        url_4 = f"sec=1&"
+        url_4 = f"sec={sec}&"
         url_5 = "cVersion=&fontSize=15px&fontWeight=normal"
 
         # Form a complete URL with URL segments
@@ -68,5 +69,6 @@ class getPhrases:
                 remove.decompose()
                 
             for line in lines:
-                if self.sec == int(line.text[0]):            # Number of section
-                    return str.strip(line.text[1:])     # Phrase of section
+                digits = re.sub(r"[^0-9]", "", line.text)
+                if self.sec == int(digits):            # Number of section
+                    return str.strip(line.text[len(digits):])     # Phrase of section

@@ -5,10 +5,12 @@ from pathlib import Path
 import json
 import time
 
-beta = 3
+beta = 10
 
 global alpha
 alpha = 1/beta
+
+complete = True
 
 def type_writer(text: str):
     for seg in text:
@@ -146,24 +148,21 @@ else:
     st = time.time()
     for line in sequence_list:
         if line == "praisenworship":
-            slide_writer.write_worship()
-            print(".")
+            no_problem = slide_writer.write_worship()
+            if not no_problem:
+                complete = False
             
         elif line == "allofsermon":
             slide_writer.write_contents(line)
-            print(".")
         
         elif line == "aftersermon":
             slide_writer.write_worship(type="normal", title=variable_list[11])
-            print(".")
         
         elif line == "normalpraise":
             slide_writer.write_worship(type="normal", title=variable_list[12])
-            print(".")
         
         else:
             slide_writer.write_contents(line)
-            print(".")
     
     # save ppt file
     template.save("thepuruem-ppt.pptx")
