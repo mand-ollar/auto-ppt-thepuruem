@@ -4,6 +4,8 @@ from pathlib import Path
 
 import re
 import json
+import unicodedata
+import os
 
 '''
 ARTIST NAMES SHOULD INCLUDE:
@@ -19,150 +21,156 @@ class getLyrics:
     def __init__(self,
                  ):
         self.pth = Path.cwd()
-    
-    def __part_separation_to_json__(self,
-                                    file: Path,
-                                    title: str,
-                                    ):
+
+    def _print(self,
+               x,
+               ):
+        print(x) if self.print_it else None
+
+    def _part_separation_to_json_(self,
+                                  file: Path,
+                                  title: str,
+                                  ):
         # read txt file
         with open(file, "r") as f:
-            lyrics_txt = f.read()
+            lyrics_txt = f.read().split("\n")
             f.close()
-        
-        # remove all characters except alphabets and numbers(for A, B, A1, A2, ...)
-        lyrics_parts = re.sub(r"[^a-dA-D0-9Z]", "", lyrics_txt)
 
-        # find alphabets idx
-        alph_idx = []
-        for i in range(len(lyrics_parts)):
-            if lyrics_parts[i].isalpha():
-                alph_idx.append(i)
-        alph_idx.append(len(lyrics_parts))
-        
-        # part segments list
-        temp = []
-        for i in range(len(alph_idx)-1):
-            temp.append(lyrics_parts[alph_idx[i]:alph_idx[i+1]])
-        lyrics_parts = temp
-        
+        # get part segments
+        lyrics_parts = []
+        for lyric in lyrics_txt:
+            if len(lyric) == 2 and lyric[1].isdigit():
+                lyrics_parts.append(lyric)
+            elif len(lyric) == 1:
+                lyrics_parts.append(lyric)
+
         # part segments idx from txt file
         idx = []
         for parts in lyrics_parts:
-            idx.append(lyrics_txt.find(parts))
+            idx.append(lyrics_txt.index(parts))
         idx.append(len(lyrics_txt))
-        
+
         # make lyrics dict by parts {A: str, B: str, ...}
         output = {}
         for i in range(len(lyrics_parts)):
-            text = lyrics_txt[idx[i]+len(lyrics_parts[i]):idx[i+1]]
+            text = "\n".join(lyrics_txt[idx[i]+1:idx[i+1]])
             output[lyrics_parts[i]] = text.strip()
-        
+
         # write json file
         with open(f"lyrics/json/{title}.json", "w", encoding='utf-8') as f:
             json.dump(output, f, ensure_ascii = False)
             f.close()
 
-    def __txt_to_json(self,
+    def _txt_to_json_(self,
                       song_title: str,
                       ):
         txt_folder = self.pth/"lyrics/txt"
         file_list = list(txt_folder.glob("*.txt"))
-        
-        for file in file_list:
-            file_str = str(file)
-            
-            idxl = file_str.rfind("/")
-            idxr = file_str.rfind(".")
-            title = file_str[idxl+1:idxr]
-            
-            if song_title.replace(" ", "") in title.replace(" ", ""):
-                self.__part_separation_to_json__(file, title)
-                print("Json conversion complete")
-                return -1
-        
-        print(f"No txt file named {song_title} found.")
 
-    def __save_as_txt__(self,
-                        song_title: str,
-                        lyrics: str,
-                        ):
+        def trans(x):
+            return unicodedata.normalize('NFC', x)
+
+        for file in file_list:
+            title = trans(file.stem)
+
+            if title == song_title:
+                self._part_separation_to_json_(file, title)
+                print("Json conversion complete")
+                print()
+                return False
+
+        self._print(f"No txt file named {song_title} found.")
+
+    def _save_as_txt_(self,
+                      song_title: str,
+                      lyrics: str,
+                      ):
         if not Path(f"lyrics/txt/{song_title}.txt").exists():
             with open(f"lyrics/txt/{song_title}.txt", "w") as lyrics_txt:
                 lyrics_txt.write(lyrics)
                 lyrics_txt.close()
-        
-        if not self.__is_fit_style__(f"lyrics/txt/{song_title}.txt"):
-            print(f"Go to lyrics/txt/{song_title}.txt and set the lyrics part manually.")
 
-    def __is_fit_style__(self,
-                         file: str,
-                         ):
+        if not self._is_fit_style_(f"lyrics/txt/{song_title}.txt"):
+            self._print(f"Go to lyrics/txt/{song_title}.txt and set the lyrics part manually.")
+
+    def _is_fit_style_(self,
+                       file: str,
+                       ):
         with open(file, "r") as f:
-            text = f.read()
+            text_segments = f.read().split("\n")
             f.close()
-        
+
         is_fit = True
-        
-        # check if there are some alphabets
-        if "A" not in text:
-            is_fit = False
-        
-        segments = text.split("\n")
-        for segment in segments:
-            if len(segment) > 20:
+
+        def check_idx_exitsts(segment: str,
+                              ):
+            if len(segment) == 1:
+                return True
+            elif len(segment) == 2 and segment[1].isdigit():
+                return True
+            else:
+                return False
+
+        idx_exists = False
+        for segment in text_segments:
+            if len(segment) > 24:
                 is_fit = False
                 break
-        
+            if not idx_exists and check_idx_exitsts(segment):
+                idx_exists = True
+        if not idx_exists:
+            is_fit = False
+
         if not is_fit:
-            print(f"Cannot make it to json because the style is wrong. Check [{file}] again.")
+            self._print(f"Cannot make it to json because the style is wrong. Check [{file}] again.")
             return False
         else:
             return True
 
     def get_lyrics(self,
                    song_title: str,
-                   artist_name=""
+                   artist_name="thisisnotanartistname",
+                   print_it: bool = True,
                    ):
-        
+        self.print_it = print_it
+
         # Check if lyrics json file exists
         json_folder = self.pth/"lyrics/json"
         file_list = list(json_folder.glob("*.json"))
 
         for file in file_list:
-            file_str = str(file)
-            
-            idxl = file_str.rfind("/")
-            idxr = file_str.rfind(".")
-            title = file_str[idxl+1:idxr]
+            def trans(x):
+                return unicodedata.normalize('NFC', x)
+
+            title = trans(file.stem)
 
             if song_title.replace(" ", "") in title.replace(" ", ""):
-                print("Lyrics json file exists in [/lyrics/json] folder.")
-                
-                return -1
-        
+                self._print("Lyrics json file exists in [/lyrics/json] folder.")
+
+                return False
+
         # Check if lyrics txt file exists when json file does not exist
         txt_folder = self.pth/"lyrics/txt"
         file_list = list(txt_folder.glob("*.txt"))
-        
+
         for file in file_list:
-            file_str = str(file)
-            
-            idxl = file_str.rfind("/")
-            idxr = file_str.rfind(".")
-            title = file_str[idxl+1:idxr]
+            def trans(x):
+                return unicodedata.normalize('NFC', x)
+
+            title = trans(file.stem)
             
             if song_title.strip() in title.strip():
-                print("Lyrics txt file exists in [/lyrics/txt] folder.")
-                is_fit = self.__is_fit_style__(file)
+                self._print("Lyrics txt file exists in [/lyrics/txt] folder.")
+                is_fit = self._is_fit_style_(file)
                 
                 # End function if lyrics txt file is not fit
                 if not is_fit:
-                    return -1
+                    return True
                 else:
                     print("Converting to json file...")
-                    self.__txt_to_json(title)
-                    return -1
-        
+                    self._txt_to_json_(title)
+                    return False
+
         song_title = song_title.replace(" ", "+")
 
         url_0 = "https://www.melon.com/search/total/index.htm?q="
@@ -174,32 +182,37 @@ class getLyrics:
         soup = BeautifulSoup(response.text, "html.parser")
 
         titles = soup.find_all("a", title="곡정보 보기")
-        artists = soup.find_all("a", class_="fc_mgray")
-        
+        artists = soup.find_all("div", id="artistName")
+
         lyrics = []
         while lyrics == []:
             # if artist_name is not given
-            if artist_name == "":
+            if artist_name == "thisisnotanartistname":
                 i = 0
+                print(f"Search results for {song_title.replace('+', ' ')}...")
+                print()
                 print("[NO ARTIST NAME ENTERED]\n")
-                for i in range(5):
-                    k = i * 3
-                    print(f"{i + 1}] {artists[k].text}")
+                for i in range(min(5, len(artists))):
+                    k = i
+                    print(f"{i + 1}] {artists[k].a.text}")
                 print()
-                artist_name = artists[3 * int(input("Choose the artist: ")) - 2].text
+                artist_name = artists[int(input("Choose the artist: ")) - 1].a.text
                 print()
-                
+
+            not_broken = True
             for artist in artists:
-                if artist_name in artist.text:
+                # if there's a matched artist
+                if artist_name in artist.a.text:
                     idx = artists.index(artist)
+                    not_broken = False
                     break
-                
+
+            if not_broken:
                 # if there's no matched artist
                 print(f"Cannot find {artist_name}!\n")
-                artist_name = ""
-                break
-            if artist_name == "":
-                continue
+                artist_name = "thisisnotanartistname"
+                if artist_name == "thisisnotanartistname":
+                    continue
 
             text = titles[idx//3]["href"]
             song_id = text[text.rfind("(")+2:-3]
@@ -224,12 +237,15 @@ class getLyrics:
         lyrics = lyrics.replace(remove_1, "")
         lyrics = lyrics.replace(remove_2, "\n")
         lyrics = str.strip(lyrics)
-        
-        song_title = song_title.replace("+", " ")
-        self.__save_as_txt__(song_title, lyrics)
 
-# TODO: song part separation
+        song_title = song_title.replace("+", " ")
+        self._save_as_txt_(song_title, lyrics)
+
+        return False
+
+# TODO: song part "auto" separation
 
 if __name__ == "__main__":
     getLyrics = getLyrics()
-    getLyrics.get_lyrics(song_title="당신의 날에", artist_name="WELOVE")
+    title = "주 이름 찬양"
+    getLyrics.get_lyrics(song_title=title, artist_name="thisisnotanartistname")

@@ -5,7 +5,9 @@ from pathlib import Path
 import json
 import time
 
-beta = 10
+
+# Initial settings
+beta = 100000
 
 global alpha
 alpha = 1/beta
@@ -20,6 +22,8 @@ def type_writer(text: str):
 
 print()
 
+
+# Weloome message
 type_writer("Welcome to ThePureum PPT Maker version 1.0.0.\n")
 time.sleep(alpha * 0.5)
 
@@ -40,6 +44,8 @@ print("."); time.sleep(alpha * 0.7)
 print("."); time.sleep(alpha * 0.7)
 print(".\n"); time.sleep(alpha * 0.7)
 
+
+# Choose the template file
 type_writer("Select template file...\n")
 time.sleep(alpha * 1)
 
@@ -72,14 +78,16 @@ print("."); time.sleep(alpha * 0.7)
 print("."); time.sleep(alpha * 0.7)
 print(".\n"); time.sleep(alpha * 0.7)
 
+# If there's no any txt file in the directory
 if len(txt_list) == 0:
     type_writer("NO TXT FILE...\n")
     time.sleep(alpha * 1)
     selection = 0
 
+# If there's txt files in the directory
 else:
     type_writer("Choose the file if you already have on in this directory. If not, just choose 0.\n")
-    
+
     print("0] No matched txt file")
     for i in range(len(txt_list)):
         print(f"{i+1}] {txt_list[i].name}")
@@ -94,23 +102,24 @@ else:
         time.sleep(alpha * 1)
     selection = int(selection)
 
+# If there's no template txt file, show the template-file-making instructions
 if selection == 0:
     type_writer("You don't have the txt file. Go and make one, and come back again.\n")
     time.sleep(alpha * 1)
-    
+
     type_writer("Here's the slide layout list.")
     time.sleep(alpha * 0.5)
     type_writer("Please make sure that the list is based on the exact name of these layouts.\n")
     time.sleep(alpha * 1)
-    
+
     template_slidemasters = template.slide_masters
     print()
     type_writer("[SLIDE LAYOUT LIST]\n")
-    
+
     for slidemaster in template_slidemasters:
         for layout in slidemaster.slide_layouts:
             print(layout.name)
-    
+
     print()
     print()
     time.sleep(alpha * 1)
@@ -134,36 +143,38 @@ else:
     with open(f"dict/sunday-session.json", "r") as session_json:
         session_dict = json.load(session_json)
         session_json.close()
-        
+
     lyrics_list = []
     for i in range(len(session_dict["title_kr"])):
         song_title = session_dict["title_kr"][i]
+        slideWriter = slideWrite()
+        slideWriter._prepare_lyrics_(song_title)
         with open(f"lyrics/json/{song_title}.json", "r") as lyrics_json:
             lyrics_list.append(json.load(lyrics_json))
     session_dict["lyrics_list"] = lyrics_list
-    
+
     variable_list = list(session_dict.values())
     slide_writer = slideWrite(template, layout_dict, variable_list)
-    
+
     st = time.time()
     for line in sequence_list:
         if line == "praisenworship":
             no_problem = slide_writer.write_worship()
             if not no_problem:
                 complete = False
-            
+
         elif line == "allofsermon":
             slide_writer.write_contents(line)
-        
+
         elif line == "aftersermon":
             slide_writer.write_worship(type="normal", title=variable_list[11])
-        
+
         elif line == "normalpraise":
             slide_writer.write_worship(type="normal", title=variable_list[12])
-        
+
         else:
             slide_writer.write_contents(line)
-    
+
     # save ppt file
     template.save("thepuruem-ppt.pptx")
     type_writer("\nYour PPT is ready!")

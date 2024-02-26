@@ -1,41 +1,37 @@
 {
 
-    "date": "2024.02.04",
+    "date": "2024.02.25",
 
-    "sermon_title": "낭비되지 말아야 할 슬픔",
+    "sermon_title": "로뎀나무 아래서",
 
-    "sermon_bible": "시편 126:1-6",
+    "sermon_bible": "열왕기상 19:1-8",
 
-    "insermon_bible": ["시편 126:1-3",
-                       "시편 126:1-3",
-                       "시편 126:4",
-                       "시편 126:5-6"
-                    ],
+    "insermon_bible": [],
 
-    "title_kr": ["사랑은 여기 있으니",
-                 "당신의 날에",
-                 "허망해 보이나"
-                ],
-
-    "title_en": ["Love Is Here",
-                 "On Your Day",
-                 "Though It Seems In Vain"
-                ],
+    "title_kr": ["Need You Lord",
+                 "주 행하신 위대한 일",
+                 "주 이름 찬양"
+                 ],
+     
+    "title_en": ["",
+                 "Song of Thanks",
+                 "Blessed Be Your Name"
+                 ],
 
     "lyrics_list": [],
 
-    "sequence_list": ["A1zA1BCzA2BCzD1D2CCz",
-                      "ABCzABCzBCCz",
-                      "ABzABzBBBz"
-                    ],
+    "sequence_list": ["A1BCzA2BCzDCz",
+                      "AABABCBBz",
+                      "A1BCA2BCCDDCCCCz"
+                     ],
 
-    "name": "오민석 형제",
+    "name": "김서희 자매",
 
     "preacher": "장해윤 목사님",
 
     "version": "개역개정",
 
-    "aftersermon": "밀알",
+    "aftersermon": "",
 
     "offering": "나의 모습 나의 소유"
 
