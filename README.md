@@ -16,8 +16,9 @@ Chalkduster, Dreaming Outloud Pro, Footlight MT are default. (MAYBE)
 If you want to write and edit a code for automation process,  
 please install these Python libraries and needless to say, Python also.  
   
-In this project, we used python-pptx, keyboard, pathlib, json, time, re, requests, beautifulsoup4(bs4)  
-You have to install python-pptx, requests, beautifulsoup4(bs4), keyboard. Otherwise, I bet it is installed when you install Python.  
+In this project, we used python-pptx, pathlib, json, time, re, requests, beautifulsoup4(bs4)  
+You have to install python-pptx, requests, beautifulsoup4(bs4). Otherwise, I bet it is installed when you install Python.  
+Use "pip3 install -r requirements.txt"
   
 Here is a guide that will help using this library. [pptx-python](https://python-pptx.readthedocs.io/en/latest/).  
 
