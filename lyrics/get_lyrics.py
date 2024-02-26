@@ -145,7 +145,7 @@ class getLyrics:
             title = trans(file.stem)
 
             if song_title.replace(" ", "") in title.replace(" ", ""):
-                self._print("Lyrics json file exists in [/lyrics/json] folder.")
+                self._print(f"Lyrics json file [{song_title}.json] exists in [/lyrics/json] folder.\n")
 
                 return False
 

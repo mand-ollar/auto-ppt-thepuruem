@@ -50,8 +50,8 @@ type_writer("Select template file...\n")
 time.sleep(alpha * 1)
 
 pth = Path(__file__).parent
-pptx_list = list(pth.rglob("*.pptx"))
-txt_list = list(pth.rglob("*.txt"))
+pptx_list = list((pth/"template_pptx").glob("*.pptx"))
+txt_list = list((pth/"template_txt").glob("*.txt"))
 
 for i in range(len(pptx_list)):
     print(f"{i}] {pptx_list[i].name}")
@@ -134,7 +134,7 @@ if selection == 0:
     type_writer("4. Normal praise section: You have to write 'normalpraise' to the normal praise section.")
 
 else:
-    with open(f"{txt_list[selection - 1].name}", "r") as txt:
+    with open(f"{txt_list[selection - 1]}", "r") as txt:
         sequence = txt.read()
         txt.close()
     sequence = sequence.replace(" \n", "")
@@ -176,7 +176,12 @@ else:
             slide_writer.write_contents(line)
 
     # save ppt file
-    template.save("thepuruem-ppt.pptx")
+    pptx_name = input("Enter the name of the ppt file: ")
+    if pptx_name.endswith(".pptx"):
+        pptx_name = pptx_name
+    else:
+        pptx_name = pptx_name + ".pptx"
+    template.save(pptx_name)
     type_writer("\nYour PPT is ready!")
     type_writer(f"Saved as 'thepuruem-ppt.pptx'.")
     type_writer(f"Time taken: {round(time.time() - st, 3)}s")
