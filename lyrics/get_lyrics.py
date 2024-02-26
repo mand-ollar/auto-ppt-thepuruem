@@ -20,7 +20,7 @@ WELOVE
 class getLyrics:
     def __init__(self,
                  ):
-        self.pth = Path.cwd()
+        self.pth = Path(__file__).parent.parent
 
     def _print(self,
                x,

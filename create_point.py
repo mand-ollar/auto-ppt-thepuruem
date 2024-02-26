@@ -49,9 +49,9 @@ print(".\n"); time.sleep(alpha * 0.7)
 type_writer("Select template file...\n")
 time.sleep(alpha * 1)
 
-pth = Path.cwd()
-pptx_list = list(pth.glob("*.pptx"))
-txt_list = list(pth.glob("*.txt"))
+pth = Path(__file__).parent
+pptx_list = list(pth.rglob("*.pptx"))
+txt_list = list(pth.rglob("*.txt"))
 
 for i in range(len(pptx_list)):
     print(f"{i}] {pptx_list[i].name}")
