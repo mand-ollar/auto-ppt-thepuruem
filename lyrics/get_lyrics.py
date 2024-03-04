@@ -247,5 +247,5 @@ class getLyrics:
 
 if __name__ == "__main__":
     getLyrics = getLyrics()
-    title = "주 이름 찬양"
-    getLyrics.get_lyrics(song_title=title, artist_name="thisisnotanartistname")
+    title = "주만 바라볼찌라"
+    getLyrics.get_lyrics(song_title=title, artist_name="소리엘")#thisisnotanartistname")

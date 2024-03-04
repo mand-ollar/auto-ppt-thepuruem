@@ -1,37 +1,42 @@
 {
 
-    "date": "2024.02.25",
+    "date": "2024.03.03",
 
-    "sermon_title": "로뎀나무 아래서",
+    "sermon_title": "관계 안에서 행복을 주시는 하나님",
 
-    "sermon_bible": "열왕기상 19:1-8",
+    "sermon_bible": "시편 128:1-5",
 
-    "insermon_bible": [],
+    "insermon_bible": ["시편 128:2",
+                       "시편 128:3",
+                       "시편 128:5-6",
+                       "시편 128:1",
+                       "시편 128:4",
+                       "로마서 5:8"],
 
-    "title_kr": ["Need You Lord",
-                 "주 행하신 위대한 일",
-                 "주 이름 찬양"
+    "title_kr": ["나를 향한 주의 사랑",
+                 "비 준비하시니",
+                 "아름다우신"
                  ],
      
-    "title_en": ["",
-                 "Song of Thanks",
-                 "Blessed Be Your Name"
+    "title_en": ["I Could Sing Of Your Love Forever",
+                 "Psalms 147",
+                 "Beautiful"
                  ],
 
     "lyrics_list": [],
 
-    "sequence_list": ["A1BCzA2BCzDCz",
-                      "AABABCBBz",
-                      "A1BCA2BCCDDCCCCz"
+    "sequence_list": ["AzABAABBCCCCBBBz",
+                      "A1A2BCzA1A2BCzA2BCCz",
+                      "BBBCCBBz"
                      ],
 
-    "name": "김서희 자매",
+    "name": "이솔담 자매",
 
     "preacher": "장해윤 목사님",
 
     "version": "개역개정",
 
-    "aftersermon": "",
+    "aftersermon": "주만 바라볼찌라",
 
     "offering": "나의 모습 나의 소유"
 
