@@ -192,9 +192,10 @@ class getLyrics:
                 print(f"Search results for {song_title.replace('+', ' ')}...")
                 print()
                 print("[NO ARTIST NAME ENTERED]\n")
+                print(len(artists))
                 for i in range(min(5, len(artists))):
                     k = i
-                    print(f"{i + 1}] {artists[k].a.text}")
+                    print(f"{i + 1}] {artists[k].a.text}") if artists[k].a != None else print(f"{i + 1}] ")
                 print()
                 artist_name = artists[int(input("Choose the artist: ")) - 1].a.text
                 print()
