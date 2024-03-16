@@ -2,6 +2,9 @@ from requests import get
 from bs4 import BeautifulSoup
 import re
 import json
+from pathlib import Path
+
+working_dir = Path(__file__).parent
 
 
 class getPhrases:
@@ -9,9 +12,9 @@ class getPhrases:
                  ):
 
         # Dictionary loading...
-        with open("dict/version-dict.json", "r") as ver_json:
+        with open(working_dir/"dict/version-dict.json", "r") as ver_json:
             self.version_dict = json.load(ver_json)  # version in Kr -> version in En
-        with open("dict/book-dict.json", "r") as book_json:
+        with open(working_dir/"dict/book-dict.json", "r") as book_json:
             self.book_dict = json.load(book_json)    # book in Kr -> book in En
 
     # By book, chapter and section, 'get URL'

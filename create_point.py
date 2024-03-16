@@ -14,6 +14,8 @@ alpha = 1/beta
 
 complete = True
 
+working_dir = Path(__file__).parent
+
 def type_writer(text: str):
     for seg in text:
         print(seg, end="")
@@ -140,7 +142,7 @@ else:
     sequence = sequence.replace(" \n", "")
     sequence_list = sequence.split("\n")
 
-    with open(f"dict/sunday-session.json", "r") as session_json:
+    with open(working_dir/f"dict/sunday-session.json", "r") as session_json:
         session_dict = json.load(session_json)
         session_json.close()
 
@@ -149,7 +151,7 @@ else:
         song_title = session_dict["title_kr"][i]
         slideWriter = slideWrite()
         slideWriter._prepare_lyrics_(song_title)
-        with open(f"lyrics/json/{song_title}.json", "r") as lyrics_json:
+        with open(working_dir/f"lyrics/json/{song_title}.json", "r") as lyrics_json:
             lyrics_list.append(json.load(lyrics_json))
     session_dict["lyrics_list"] = lyrics_list
 
@@ -181,7 +183,7 @@ else:
         pptx_name = pptx_name
     else:
         pptx_name = pptx_name + ".pptx"
-    template.save(pptx_name)
+    template.save(working_dir/f"made-ppt/{pptx_name}")
     type_writer("\nYour PPT is ready!")
-    type_writer(f"Saved as 'thepuruem-ppt.pptx'.")
+    type_writer(f"Saved as '{pptx_name}'.")
     type_writer(f"Time taken: {round(time.time() - st, 3)}s")

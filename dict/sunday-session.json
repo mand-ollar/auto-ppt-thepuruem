@@ -1,36 +1,32 @@
 {
 
-    "date": "2024.03.10",
+    "date": "2024.03.17",
 
-    "sermon_title": "심령의 절대적 가난",
+    "sermon_title": "가난에 대한 극심한 슬픔",
 
     "sermon_bible": "마태복음 5:1-12",
 
-    "insermon_bible": ["마태복음 6:33",
-                       "말라기 4:6",
-                       "이사야 66:2",
-                       "시편 34:18",
-                       "시편 51:17",
-                       "마태복음 5:3"],
+    "insermon_bible": ["요한계시록 21:2-4"
+                       ],
 
-    "title_kr": ["주와 같이 길 가는 것",
-                 "내 마음을 가득 채운",
-                 "모든 열방 주 볼 때까지"
+    "title_kr": ["우린 주를 만나고",
+                 "이 세상의 부요함보다",
+                 "여호와께 돌아가자"
                  ],
      
-    "title_en": ["I Could Sing Of Your Love Forever",
-                 "Here I Am Again",
-                 "Till All The Nations See Your Glory"
+    "title_en": ["Faith We Have",
+                 "Better Than Life",
+                 "Love Never Fails"
                  ],
 
     "lyrics_list": [],
 
-    "sequence_list": ["A1A1BzA2A2BBzA1BBBz",
-                      "A1A1BA2BBzCCBBBz",
-                      "A1A2BzA1A2BBCBBz"
+    "sequence_list": ["ABC1ABC1C2DzC1C2C2z",
+                      "A1A2BC1C2zA1A2BC1C2C2zBBC1C2C2C2C2z",
+                      "ABCzABCDDCCz"
                      ],
 
-    "name": "심정훈 형제",
+    "name": "장윤아 자매",
 
     "preacher": "장해윤 목사님",
 

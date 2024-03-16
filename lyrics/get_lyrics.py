@@ -57,7 +57,7 @@ class getLyrics:
             output[lyrics_parts[i]] = text.strip()
 
         # write json file
-        with open(f"lyrics/json/{title}.json", "w", encoding='utf-8') as f:
+        with open(self.pth/f"lyrics/json/{title}.json", "w", encoding='utf-8') as f:
             json.dump(output, f, ensure_ascii = False)
             f.close()
 
@@ -85,12 +85,12 @@ class getLyrics:
                       song_title: str,
                       lyrics: str,
                       ):
-        if not Path(f"lyrics/txt/{song_title}.txt").exists():
-            with open(f"lyrics/txt/{song_title}.txt", "w") as lyrics_txt:
+        if not Path(self.pth/f"lyrics/txt/{song_title}.txt").exists():
+            with open(self.pth/f"lyrics/txt/{song_title}.txt", "w") as lyrics_txt:
                 lyrics_txt.write(lyrics)
                 lyrics_txt.close()
 
-        if not self._is_fit_style_(f"lyrics/txt/{song_title}.txt"):
+        if not self._is_fit_style_(self.pth/f"lyrics/txt/{song_title}.txt"):
             self._print(f"Go to lyrics/txt/{song_title}.txt and set the lyrics part manually.")
 
     def _is_fit_style_(self,
@@ -192,7 +192,7 @@ class getLyrics:
                 print(f"Search results for {song_title.replace('+', ' ')}...")
                 print()
                 print("[NO ARTIST NAME ENTERED]\n")
-                print(len(artists))
+
                 for i in range(min(5, len(artists))):
                     k = i
                     print(f"{i + 1}] {artists[k].a.text}") if artists[k].a != None else print(f"{i + 1}] ")
