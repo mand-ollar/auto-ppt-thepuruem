@@ -1,0 +1,26 @@
+# PPT maker from the-pureum
+
+## data
+
+* made-ppts  >>>  .gitignore
+* templates
+  * ppt
+  * sequence
+
+## assets
+
+* fonts
+* icons
+* images
+* styles
+
+## src
+
+* lyrics
+* bible-phrase
+* ppt-interacting
+* terminal ui
+
+## utils
+
+## main
