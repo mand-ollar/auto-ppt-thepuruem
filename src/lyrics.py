@@ -93,7 +93,7 @@ class LyricsScraper:
     def __init__(
         self,
         song_title: str,
-    ):
+    ) -> None:
         self.song_title = song_title
 
     def __get_search_html(
@@ -264,13 +264,38 @@ class LyricsScraper:
 
         return song_class
 
-    def get_song(self) -> Song:
+    def get_song(
+        self,
+    ) -> Song:
         """Main function"""
 
         search_results = self._get_search()
         song_class = self._get_song_lyrics(search_results=search_results)
 
         return song_class
+
+
+# pylint: disable=pointless-string-statement
+"""
+# Save Lyrics Usecases
+
+1) New Song
+You search the song for the first time, the data is not in the database.
+Search, get lyrics, save lyrics as txt in a raw form (not formatted).
+If the title has error so that the result doesn't exists, it asks you if the title's correct,
+and lets you enter the title again.
+Edit the txt file to match the format to be transformed into json.
+If it doesn't fit, choose whether you will edit again or remove the txt file saved.
+When removing txt files, check if json files exist and remove them as well.
+After removing the txt file, you can choose the artist again.
+
+2) Song Exists
+Check the existing txt file.
+(Assume that if the txt file exists, the json file also exists.)
+If there is modification with txt file, remove the json file and re-save it from the txt file.
+If it doesn't fit the format, choose whether you will edit again or remove the txt file saved.
+"""
+# pyling: enable=pointless-string-statement
 
 
 class SaveLyrics:
@@ -294,17 +319,23 @@ class SaveLyrics:
         self.lyrics_txt: str = song_class.lyrics_txt
 
         self.filename: str = song_class.title
+        self.temp_lyrics_txt_path: str = f"./.cache/{self.filename}.txt"
         self.filepath_txt: Path = Path(f"./data/lyrics/txt/{self.filename}.txt")
         self.filepath_json: Path = Path(f"./data/lyrics/json/{self.filename}.json")
 
-        self.editor_options: List[str] = ["nano", "vim", "manual"]
-        self.selected_editor_idx: int = -1
+        self.lyrics_editor: EdictLyrcis = EdictLyrcis(song_class=song_class)
 
     def _save_as_txt(
         self,
     ) -> None:
         """
         Save lyrics as txt file.
+
+        1) Ask if you want to overwrite if file exists.
+            - Yes: Overwrite
+            - No: Discard change and go to the next step.
+            TODO: Show the existing file content and ask if you want to overwrite.
+        2) Save right away if file does not exist.
         """
 
         filename = f"{self.filename}.txt"
@@ -339,79 +370,6 @@ class SaveLyrics:
             ) as f:
                 f.write(self.lyrics_txt)
                 f.close()
-
-    def __edit_txt_with_nano(
-        self,
-    ) -> None:
-        """
-        Edit existing txt file with nano editor.
-        """
-
-        subprocess.run(["nano", self.filepath_txt], check=True)
-
-    def __edit_txt_with_vim(
-        self,
-    ) -> None:
-        """
-        Edit existing txt file with vim editor.
-        """
-
-        subprocess.run(["vim", self.filepath_txt], check=True)
-
-    def __edit_txt_manually(
-        self,
-    ) -> None:
-        """
-        Edit txt file manually.
-        """
-
-        print(f"Go to {self.filepath_txt} and edit the txt file manually.")
-
-        complete_flag = "".join(
-            random.choices(string.ascii_letters + string.digits, k=5)
-        )
-
-        while input(f"Type {complete_flag} to finish editing: ") != complete_flag:
-            continue
-
-    def __edit_txt_select_editor(
-        self,
-    ) -> int:
-        """
-        Select editor for editing txt file.
-        """
-
-        editor_idx = select_option(
-            options=self.editor_options,
-            description="Select editor for editing txt file.",
-        )
-
-        return editor_idx
-
-    def _edit_txt_terminal(
-        self,
-    ):
-        """
-        Edit txt file in terminal.
-        """
-
-        if self.selected_editor_idx == -1:
-            editor_idx = self.__edit_txt_select_editor()
-        else:
-            editor_idx = self.selected_editor_idx
-
-        if self.editor_options[editor_idx] == "nano":
-            self.__edit_txt_with_nano()
-
-        elif self.editor_options[editor_idx] == "vim":
-            self.__edit_txt_with_vim()
-
-        elif self.editor_options[editor_idx] == "manual":
-            self.__edit_txt_manually()
-
-        with open(file=self.filepath_txt, mode="r", encoding="utf-8") as f:
-            self.song_class.lyrics_txt = f.read()
-            f.close()
 
     def __is_idx(
         self,
@@ -500,7 +458,119 @@ class SaveLyrics:
     ) -> None:
         """Lyrics saving process."""
 
+        self.lyrics_editor.edit_txt_terminal()
         self._save_as_txt()
-        self._edit_txt_terminal()
         self._separate_parts()
         self._save_as_json()
+
+
+class EdictLyrcis:
+    """Lyrics Editing on terminal."""
+
+    def __init__(
+        self,
+        song_class: Song,
+    ) -> None:
+
+        self.song_class: Song = song_class
+
+        self.lyrics_txt = song_class.lyrics_txt
+
+        self.filename: str = song_class.title
+        self.filepath_txt: Path = Path(f"./data/lyrics/txt/{song_class.title}.txt")
+        self.temp_lyrics_txt_path: Path = Path(f"./.cache/{self.filename}.txt")
+
+        self.editor_options: List[str] = ["nano", "vim", "manual"]
+        self.selected_editor_idx: int = -1
+
+        Path("./.cache").mkdir(parents=True, exist_ok=True)
+
+    def _save_txt_temp(
+        self,
+    ) -> None:
+        """Save temp lyrics for editing."""
+
+        with open(
+            file=self.temp_lyrics_txt_path,
+            mode="w",
+            encoding="utf-8",
+        ) as f:
+            f.write(self.lyrics_txt)
+            f.close()
+
+    def __edit_txt_with_nano(
+        self,
+    ) -> None:
+        """
+        Edit existing txt file with nano editor.
+        """
+
+        subprocess.run(["nano", self.filepath_txt], check=True)
+
+    def __edit_txt_with_vim(
+        self,
+    ) -> None:
+        """
+        Edit existing txt file with vim editor.
+        """
+
+        subprocess.run(["vim", self.filepath_txt], check=True)
+
+    def __edit_txt_manually(
+        self,
+    ) -> None:
+        """
+        Edit txt file manually.
+        """
+
+        print(f"Go to {self.filepath_txt} and edit the txt file manually.")
+
+        complete_flag = "".join(
+            random.choices(string.ascii_letters + string.digits, k=5)
+        )
+
+        while input(f"Type {complete_flag} to finish editing: ") != complete_flag:
+            continue
+
+    def __edit_txt_select_editor(
+        self,
+    ) -> int:
+        """
+        Select editor for editing txt file.
+        """
+
+        editor_idx = select_option(
+            options=self.editor_options,
+            description="Select editor for editing txt file.",
+        )
+
+        return editor_idx
+
+    def edit_txt_terminal(
+        self,
+    ) -> Song:
+        """
+        Edit txt file in terminal.
+        """
+
+        if self.selected_editor_idx == -1:
+            editor_idx = self.__edit_txt_select_editor()
+        else:
+            editor_idx = self.selected_editor_idx
+
+        if self.editor_options[editor_idx] == "nano":
+            self.__edit_txt_with_nano()
+
+        elif self.editor_options[editor_idx] == "vim":
+            self.__edit_txt_with_vim()
+
+        elif self.editor_options[editor_idx] == "manual":
+            self.__edit_txt_manually()
+
+        with open(file=self.filepath_txt, mode="r", encoding="utf-8") as f:
+            self.song_class.lyrics_txt = f.read()
+            f.close()
+
+        self.temp_lyrics_txt_path.unlink()
+
+        return self.song_class
