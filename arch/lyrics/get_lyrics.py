@@ -270,7 +270,7 @@ class getLyrics:
 
 if __name__ == "__main__":
     getLyrics = getLyrics()
-    title = "기쁨의 날 주시네"
+    title = "호산나 (Hosanna)"
     getLyrics.get_lyrics(
         song_title=title, artist_name="마커스"
     )  # thisisnotanartistname")

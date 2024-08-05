@@ -4,7 +4,6 @@ Get song lyrics from Melon.
 Utilize `requests` and `BeautifulSoup` to scrap website.
 """
 
-# Internal
 import re
 import json
 import random
@@ -14,12 +13,10 @@ from copy import copy
 from pathlib import Path
 from typing import List, Union, Tuple, Dict, Literal
 
-# External
 from requests import get
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
 
-# Project
 from utils.selection import select_option
 
 
@@ -167,7 +164,7 @@ class LyricsScraper:
 
         return titles_list, song_ids_list
 
-    def _get_search(
+    def __get_search(
         self,
     ) -> Dict[Literal["keyword", "artist", "song_id", "title"], List[str | None]]:
         search_html = self.__get_search_html()
@@ -252,7 +249,7 @@ class LyricsScraper:
 
         return song_class
 
-    def _get_song_lyrics(
+    def __get_song_lyrics(
         self,
         search_results: dict,
     ) -> Song:
@@ -269,8 +266,8 @@ class LyricsScraper:
     ) -> Song:
         """Main function"""
 
-        search_results = self._get_search()
-        song_class = self._get_song_lyrics(search_results=search_results)
+        search_results = self.__get_search()
+        song_class = self.__get_song_lyrics(search_results=search_results)
 
         return song_class
 
@@ -323,9 +320,9 @@ class SaveLyrics:
         self.filepath_txt: Path = Path(f"./data/lyrics/txt/{self.filename}.txt")
         self.filepath_json: Path = Path(f"./data/lyrics/json/{self.filename}.json")
 
-        self.lyrics_editor: EdictLyrcis = EdictLyrcis(song_class=song_class)
+        self.lyrics_editor: EditLyrcis = EditLyrcis(song_class=song_class)
 
-    def _save_as_txt(
+    def __save_as_txt(
         self,
     ) -> None:
         """
@@ -386,7 +383,7 @@ class SaveLyrics:
         else:
             return False
 
-    def _is_fit_style(
+    def __is_fit_style(
         self,
         txt_lyrics_path: str | Path,
     ) -> bool:
@@ -413,7 +410,7 @@ class SaveLyrics:
 
         return is_fit
 
-    def _separate_parts(
+    def __separate_parts(
         self,
     ) -> None:
         """Separate lyrics to parts."""
@@ -435,7 +432,7 @@ class SaveLyrics:
 
         self.song_class.lyrics_dict = lyrics_dict
 
-    def _save_as_json(
+    def __save_as_json(
         self,
     ) -> None:
         """Save lyrics as json file."""
@@ -459,12 +456,12 @@ class SaveLyrics:
         """Lyrics saving process."""
 
         self.lyrics_editor.edit_txt_terminal()
-        self._save_as_txt()
-        self._separate_parts()
-        self._save_as_json()
+        self.__save_as_txt()
+        self.__separate_parts()
+        self.__save_as_json()
 
 
-class EdictLyrcis:
+class EditLyrcis:
     """Lyrics Editing on terminal."""
 
     def __init__(
@@ -481,7 +478,7 @@ class EdictLyrcis:
         self.temp_lyrics_txt_path: Path = Path(f"./.cache/{self.filename}.txt")
 
         self.editor_options: List[str] = ["nano", "vim", "manual"]
-        self.selected_editor_idx: int = -1
+        self.selected_editor_idx: int = 100
 
         Path("./.cache").mkdir(parents=True, exist_ok=True)
 
@@ -553,7 +550,7 @@ class EdictLyrcis:
         Edit txt file in terminal.
         """
 
-        if self.selected_editor_idx == -1:
+        if self.selected_editor_idx == 100:
             editor_idx = self.__edit_txt_select_editor()
         else:
             editor_idx = self.selected_editor_idx

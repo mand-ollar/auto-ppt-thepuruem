@@ -4,11 +4,9 @@ Get bible verses by bible website scraping.
 Utilize `requests` and `BeautifulSoup` to scrap website.
 """
 
-# Internal
 import re
 from typing import List
 
-# External
 from requests import get
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet
@@ -77,17 +75,16 @@ class BibleScraper:
         get_bible: callable
     """
 
-    get_bible: callable
-
     def __init__(
         self,
         bible: Bible | List[Bible],
-    ):
+    ) -> None:
+
         if bible is not list:  # For one phrase
-            self.get_bible: callable = self._get_one_phrase
+            self.get_bible: callable = self.__get_one_phrase
 
         elif bible is list:  # For multiple phrases
-            self.get_bible: callable = self._get_phrases
+            self.get_bible: callable = self.__get_phrases
 
         else:  # Invalid `bible` input
             raise ValueError("Invalid bible input")
@@ -137,7 +134,7 @@ class BibleScraper:
 
                 return phrase_text
 
-    def _get_one_phrase(
+    def __get_one_phrase(
         self,
         bible: Bible,
     ) -> str:
@@ -148,7 +145,7 @@ class BibleScraper:
 
         return text
 
-    def _get_phrases(self):
+    def __get_phrases(self):
         """Get multiple bible phrases at once"""
 
     # TODO: Implement get_phrases method; get multiple phrases at once

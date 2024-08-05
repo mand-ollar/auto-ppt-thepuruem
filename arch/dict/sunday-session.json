@@ -1,42 +1,34 @@
 {
-    "date": "2024.07.07",
-    "sermon_title": "벧엘과 그리스도",
-    "sermon_bible": "창세기 35:1",
+    "date": "2024.08.04",
+    "sermon_title": "분노도 살인으로 여기는 자",
+    "sermon_bible": "마태복음 5:21-26",
     "insermon_bible": [
-        "창세기 33:4",
-        "창세기 33:11",
-        "창세기 33:12",
-        "창세기 13:13",
-        "창세기 33:15",
-        "창세기 33:16",
-        "창세기 33:17",
-        "창세기 34:5",
-        "창세기 34:30",
-        "창세기 35:1",
-        "창세기 28:11-12",
-        "요한복음 1:51",
-        "창세기 49:26",
-        "로마서 5:20"
+        "마태복음 5:21-22",
+        "마태복음 7:28-29",
+        "마태복음 7:21-23",
+        "마태복음 5:21-22",
+        "마태복음 5:23-26",
+        "디도서 3:1-5"
     ],
     "title_kr": [
-        "오라 우리가",
-        "주님의 마음 있는 곳",
-        "비 준비하시니"
+        "주 신실하심 놀라워",
+        "호산나",
+        "나 무엇과도 주님을"
     ],
     "title_en": [
-        "Come And Let Us Go",
-        "Where Your Heart Is",
-        "Psalm 147"
+        "Your Grace Is Enough",
+        "Hosanna",
+        "Heart And Soul"
     ],
     "lyrics_list": [],
     "sequence_list": [
-        "AABCzAABCzBCCCz",
-        "A1A2B1C1C2zA1B1B2C1C2C1C2DDz",
-        "A1A2BCzA1A2BBCzCCCz"
+        "A1BCA2BCCBBCCCCz",
+        "A1BCA2BCzBBCCzDDz",
+        "AABzAABBBzBBBz"
     ],
-    "name": "정은빈 자매",
+    "name": "심정훈 형제",
     "preacher": "장해윤 목사님",
     "version": "개역개정",
-    "aftersermon": "예수 피를 힘입어",
+    "aftersermon": "예수 닮기를",
     "offering": "나의 모습 나의 소유"
 }
